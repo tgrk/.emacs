@@ -1,6 +1,9 @@
 ;; ===== Customizations go in emacs.d =====
 (add-to-list 'load-path "~/emacs.d")
 
+;; disable toolbar
+(tool-bar-mode -1)
+
 ;; default to better frame titles
 (setq frame-title-format (concat  "%b - emacs@" system-name))
 
@@ -27,7 +30,7 @@
 (setq inhibit-start-screen 1)
 (setq inhibit-splash-screen 1)
 (setq inhibit-startup-message t)
-(setq initial-scratch-message nil)
+(setq initial-scratch-message 0)
 
 ;; ===== Set colours =====
 (set-cursor-color "white")
@@ -79,11 +82,18 @@
 (global-set-key [M-down] 'windmove-down)          ; move to downer window
 
 ;; ===== CEDET =====
-;;(load-file "/usr/share/emacs22/site-lisp/cedet-common/cedet.el")
-(global-ede-mode t)                      ; Enable the Project management system
-(semantic-load-enable-code-helpers)      ; Enable prototype help and smart completion 
-;;(global-srecode-minor-mode t)            ; Enable template insertion menu
+;;(load-file "/usr/share/emacs23/site-lisp/cedet-common/cedet.el")
+;;(global-ede-mode t)                      ; Enable the Project management system
+;;(semantic-load-enable-code-helpers)    ; Enable prototype help and smart completion 
+;;(global-srecode-minor-mode t)          ; Enable template insertion menu
 
+;; eproject
+;;(add-to-list 'load-path "~/.emacs.d/eproject")
+;;(require 'eproject)
+;;(require 'eproject-extras)
+
+;; eproject - list TODO's M-x eproject-todo
+;;(rgrep "TODO" "*" (eproject-root))
 
 ;; ==== Custom full screen mode =====
 (defun toggle-fullscreen ()
@@ -126,7 +136,6 @@
 
 ;; execute esense indexer after saving file
 (defun esense-after-save-hook ()
-  "After saving a tt file, run the language_update file"
   (if buffer-file-name
       (progn
         (setq is-erl-file (numberp (string-match "\.erl$" buffer-file-name)))
@@ -202,6 +211,8 @@ temp-file
 (global-set-key [M-up] 'windmove-up) ; move to upper window
 (global-set-key [M-down] 'windmove-down) ; move to downer window
 
+;; save/restore buffers
+(desktop-save-mode 1)
 
 ;; ===== Function to delete a line =====
 

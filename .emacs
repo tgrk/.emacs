@@ -22,6 +22,43 @@
 ;; ===== Prevent Emacs from making backup files =====
 (setq make-backup-files nil) 
 
+;; ===== enable tabbar =====
+(require 'tabbar)
+
+(tabbar-mode t)
+
+; tabar look customization
+(set-face-attribute 'tabbar-default nil    :background "gray60")
+(set-face-attribute 'tabbar-unselected nil :background "gray85" :foreground "gray30" :box nil)
+(set-face-attribute 'tabbar-selected nil   :background "#f2f2f6" :foreground "black" :box nil)
+(set-face-attribute 'tabbar-button nil     :box '(:line-width 1 :color "gray72" :style released-button))
+(set-face-attribute 'tabbar-separator nil  :height 0.7)
+
+; define all tabs to be one of 3 possible groups: “Emacs Buffer”, “Dired”, “User Buffer”.
+(defun tabbar-buffer-groups ()
+  "Return the list of group names the current buffer belongs to.
+This function is a custom function for tabbar-mode's tabbar-buffer-groups.
+This function group all buffers into 3 groups:
+Those Dired, those user buffer, and those emacs buffer.
+Emacs buffer are those starting with “*”."
+  (list
+   (cond
+    ((string-equal "*" (substring (buffer-name) 0 1))
+     "Emacs Buffer"
+     )
+    ((eq major-mode 'dired-mode)
+     "Dired"
+     )
+    (t
+     "User Buffer"
+     )
+    ))) 
+
+(setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
+
+(global-set-key [alt j] 'tabbar-backward)
+(global-set-key [alt k] 'tabbar-forward)
+
 ;; ===== Enable Line and Column Numbering =====
 (line-number-mode 1)
 (column-number-mode 1)
@@ -75,6 +112,10 @@
 (global-set-key (kbd "<f12>") ; 
   (lambda()(interactive)(find-file "~/.emacs"))) 
 
+;; run terminal 
+(global-set-key (kbd "<f2>") ;
+  (lambda()(interactive)(ansi-term "/bin/bash")))
+
 ;; ===== Buffer navigation =====
 (global-set-key [M-left] 'windmove-left)          ; move to left windnow
 (global-set-key [M-right] 'windmove-right)        ; move to right window
@@ -96,14 +137,14 @@
 ;;(rgrep "TODO" "*" (eproject-root))
 
 ;; ==== Custom full screen mode =====
-(defun toggle-fullscreen ()
-  (interactive)
-  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-	    		 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-	    		 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
-)
-(toggle-fullscreen)
+;(defun toggle-fullscreen ()
+;  (interactive)
+;  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+;	    		 '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+;  (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+;	    		 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
+;)
+;(toggle-fullscreen)
 
 ;; ===== ActionScript mode =====
 (load-file "~/.emacs.d/actionscript-mode.el")
@@ -154,6 +195,30 @@
 
 (require 'distel)
 (distel-setup)
+
+
+;; Creating a new menu pane in the menu bar to the right of “Tools” menu
+;;(define-key-after
+;;  global-map
+;;  [menu-bar erlang-dializer]
+;;  (cons "Dialyzer" (make-sparse-keymap "hoot hoot"))
+;;  'erlang )
+
+;; Creating a menu item, under the menu by the id “[menu-bar mymenu]”
+;;(define-key
+;;  global-map
+;;  [menu-bar erlang-dializer nl]
+;;  '("Next Line" . next-line))
+
+;; creating another menu item
+;;(define-key
+;;  global-map
+;;  [menu-bar erlang-dializer pl]
+;;  '("Previous Line" . previous-line))
+
+;; code to remove the whole menu panel
+;; (global-unset-key [menu-bar mymenu])
+
 
 ;; A number of the erlang-extended-mode key bindings are useful in the shell too
 (defconst distel-shell-keys
@@ -212,7 +277,7 @@ temp-file
 (global-set-key [M-down] 'windmove-down) ; move to downer window
 
 ;; save/restore buffers
-(desktop-save-mode 1)
+(desktop-save-mode 0)
 
 ;; ===== Function to delete a line =====
 

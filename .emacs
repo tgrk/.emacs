@@ -146,6 +146,10 @@ Emacs buffer are those starting with “*”."
 ;)
 ;(toggle-fullscreen)
 
+;; ===== JavaScript mode =====
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
 ;; ===== ActionScript mode =====
 (load-file "~/.emacs.d/actionscript-mode.el")
 (autoload 'actionscript-mode "javascript" nil t)

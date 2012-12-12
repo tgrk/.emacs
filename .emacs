@@ -20,14 +20,21 @@
 (mouse-wheel-mode t) 
 
 ;; ===== Prevent Emacs from making backup files =====
-(setq make-backup-files nil) 
+(setq make-backup-files nil)
+
+;; ===== Nyan Mode =====
+(add-to-list 'load-path "/home/wiso/.emacs.d/nyan-mode/")
+(require 'nyan-mode)
+(setq nyan-wavy-tail t)
+(setq nyan-bar-length 40)
+(setq nyan-animate-nyancat t)
+(nyan-mode)
 
 ;; ===== enable tabbar =====
-(require 'tabbar)
-
+;;(require 'tabbar)
 (tabbar-mode t)
 
-; tabar look customization
+;; tabar look customization
 (set-face-attribute 'tabbar-default nil    :background "gray60")
 (set-face-attribute 'tabbar-unselected nil :background "gray85" :foreground "gray30" :box nil)
 (set-face-attribute 'tabbar-selected nil   :background "#f2f2f6" :foreground "black" :box nil)
@@ -146,10 +153,6 @@ Emacs buffer are those starting with “*”."
 ;)
 ;(toggle-fullscreen)
 
-;; ===== JavaScript mode =====
-(autoload 'js2-mode "js2" nil t)
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
 ;; ===== ActionScript mode =====
 (load-file "~/.emacs.d/actionscript-mode.el")
 (autoload 'actionscript-mode "javascript" nil t)
@@ -261,8 +264,8 @@ temp-file
 (add-hook 'erlang-mode-hook 'my-erlang-mode-hook)
 
 ;; ===== Wrangler =====
-(add-to-list 'load-path "/usr/local/share/wrangler/elisp")
-(require 'wrangler)
+;;(add-to-list 'load-path "/usr/local/share/wrangler/elisp")
+;;(require 'wrangler)
 
 ;; ===== Set key bindings =====
 (global-set-key [f3] 'shell)

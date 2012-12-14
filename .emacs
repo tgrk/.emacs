@@ -165,6 +165,13 @@ Emacs buffer are those starting with “*”."
  ;; add more modes here
  ) auto-mode-alist))
 
+;;===== Fixed line length =====
+(setq whitespace-line-column 80)
+
+(require 'whitespace)
+(setq whitespace-style '(face empty tabs lines-tail trailing))
+(global-whitespace-mode t)
+
 ;;
 ;; ------------------ Magic for XML Mode ----------------
 ;;

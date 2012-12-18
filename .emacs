@@ -31,7 +31,7 @@
 (nyan-mode)
 
 ;; ===== enable tabbar =====
-;;(require 'tabbar)
+(require 'tabbar)
 (tabbar-mode t)
 
 ;; tabar look customization
@@ -41,7 +41,7 @@
 (set-face-attribute 'tabbar-button nil     :box '(:line-width 1 :color "gray72" :style released-button))
 (set-face-attribute 'tabbar-separator nil  :height 0.7)
 
-; define all tabs to be one of 3 possible groups: “Emacs Buffer”, “Dired”, “User Buffer”.
+;; define all tabs to be one of 3 possible groups: “Emacs Buffer”, “Dired”, “User Buffer”.
 (defun tabbar-buffer-groups ()
   "Return the list of group names the current buffer belongs to.
 This function is a custom function for tabbar-mode's tabbar-buffer-groups.
@@ -110,7 +110,7 @@ Emacs buffer are those starting with “*”."
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 ; ===== Autocompletition on buffers/file names =====
-(ido-mode 1)
+;;(ido-mode 1)
 
 ;; ===== Cycle through buffers with Ctrl-Tab (like Firefox) =====
 (global-set-key (kbd "<C-tab>") 'bury-buffer)
@@ -154,16 +154,16 @@ Emacs buffer are those starting with “*”."
 ;(toggle-fullscreen)
 
 ;; ===== ActionScript mode =====
-(load-file "~/.emacs.d/actionscript-mode.el")
-(autoload 'actionscript-mode "javascript" nil t)
-(add-to-list 'auto-mode-alist '("\\.as\\'" . actionscript-mode))
+;;(load-file "~/.emacs.d/actionscript-mode.el")
+;;(autoload 'actionscript-mode "javascript" nil t)
+;;(add-to-list 'auto-mode-alist '("\\.as\\'" . actionscript-mode))
 
 ;;===== Flex specific =====
-(setq auto-mode-alist (append (list
- '("\\.as\\'"   . actionscript-mode)
- '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|mxml\\)\\'" . nxml-mode)
- ;; add more modes here
- ) auto-mode-alist))
+;;(setq auto-mode-alist (append (list
+;; '("\\.as\\'"   . actionscript-mode)
+;; '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|mxml\\)\\'" . nxml-mode)
+;; ;; add more modes here
+;; ) auto-mode-alist))
 
 ;;===== Fixed line length =====
 (setq whitespace-line-column 80)
@@ -171,6 +171,21 @@ Emacs buffer are those starting with “*”."
 (require 'whitespace)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
 (global-whitespace-mode t)
+
+;; Erlang Emacs Mode -- Configuration End
+(setq-default indent-tabs-mode nil)
+(setq-default c-basic-offset 4)
+
+;; Interactively Do Things (smart tab-completion in find file etc.)
+(require 'ido)
+(ido-mode t)
+
+;; ===== Highlight TODO/FIXME/BUG keywords in Erlang comments ====
+(set-face-underline 'font-lock-warning-face "yellow")
+(add-hook 'c-mode-common-hook
+               (lambda ()
+                (font-lock-add-keywords nil
+                 '(("<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
 ;;
 ;; ------------------ Magic for XML Mode ----------------
@@ -209,7 +224,6 @@ Emacs buffer are those starting with “*”."
 
 (require 'distel)
 (distel-setup)
-
 
 ;; Creating a new menu pane in the menu bar to the right of “Tools” menu
 ;;(define-key-after

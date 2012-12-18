@@ -1,0 +1,36 @@
+Custom Emacs configuration file
+=======================================================================
+* Disable system beep
+* Set default language
+* Set the highlight current line minor mode  
+* Support Wheel Mouse Scrolling 
+* Prevent Emacs from making backup files 
+* Nyan Mode 
+* enable tabbar 
+* Enable Line and Column Numbering 
+* Set colours 
+* C-x,C-c,C-v copy/paste   
+* Delete seleted text when typing 
+* Turn on parent match highlighting 
+* Show line number the cursor is on, in status bar (the mode line) 
+* Always show line numbers 
+* Copy/paste with X 
+* Shortening yes=y, no=n 
+* Autocompletition on buffers/file names 
+* Cycle through buffers with Ctrl-Tab (like Firefox) 
+* Editing .emacs config 
+* Buffer navigation 
+* CEDET 
+* Custom full screen mode 
+* ActionScript mode 
+* Flex specific 
+* Fixed line length 
+* Highlight TODO/FIXME/BUG keywords in Erlang comments ====
+* ESence for erlang 
+* Distel mode 
+* Flymake for erlang 
+* Wrangler 
+* Set key bindings 
+* Alt buffer navigation 
+* Function to delete a line 
+

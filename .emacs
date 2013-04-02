@@ -10,14 +10,14 @@
 ;; ===== Disable system beep =====
 (setq visual-bell t)
 
-;; ===== Set default language =====	
+;; ===== Set default language =====
 (setq current-language-environment "UTF-8")
 
-;; ===== Set the highlight current line minor mode ===== 
+;; ===== Set the highlight current line minor mode =====
 (global-hl-line-mode 1)
 
 ;; ===== Support Wheel Mouse Scrolling =====
-(mouse-wheel-mode t) 
+(mouse-wheel-mode t)
 
 ;; ===== Prevent Emacs from making backup files =====
 (setq make-backup-files nil)
@@ -30,9 +30,12 @@
 (setq nyan-animate-nyancat t)
 (nyan-mode)
 
-;; ===== enable tabbar =====
+;; ===== Enable tabbar =====
 (require 'tabbar)
 (tabbar-mode t)
+
+;; =====  Confirm on exit :-)  =====
+(setq confirm-kill-emacs 'y-or-n-p)
 
 ;; tabar look customization
 (set-face-attribute 'tabbar-default nil    :background "gray60")
@@ -59,7 +62,7 @@ Emacs buffer are those starting with “*”."
     (t
      "User Buffer"
      )
-    ))) 
+    )))
 
 (setq tabbar-buffer-groups-function 'tabbar-buffer-groups)
 
@@ -82,9 +85,9 @@ Emacs buffer are those starting with “*”."
 (set-face-background 'region "gray")
 (set-background-color "black")
 (set-foreground-color "white")
-(set-face-font 'default '"8x13") 
+(set-face-font 'default '"8x13")
 
-;; ===== C-x,C-c,C-v copy/paste =====  
+;; ===== C-x,C-c,C-v copy/paste =====
 (cua-mode 1)
 
 ;; ===== Delete seleted text when typing =====
@@ -115,11 +118,14 @@ Emacs buffer are those starting with “*”."
 ;; ===== Cycle through buffers with Ctrl-Tab (like Firefox) =====
 (global-set-key (kbd "<C-tab>") 'bury-buffer)
 
-;; ===== Editing .emacs config =====
-(global-set-key (kbd "<f12>") ; 
-  (lambda()(interactive)(find-file "~/.emacs"))) 
+;; ===== Goto-line short-cut key =====
+(global-set-key "\C-l" 'goto-line)
 
-;; run terminal 
+;; ===== Editing .emacs config =====
+(global-set-key (kbd "<f12>") ;
+  (lambda()(interactive)(find-file "~/.emacs")))
+
+;; run terminal
 (global-set-key (kbd "<f2>") ;
   (lambda()(interactive)(ansi-term "/bin/bash")))
 
@@ -360,4 +366,3 @@ temp-file
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  )
-

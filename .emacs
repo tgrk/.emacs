@@ -302,7 +302,6 @@ temp-file
 (global-set-key [f9] 'ispell)
 
 (global-set-key [(control o)] 'find-file)              ; use Ctrl-o to open a (new) file
-(global-set-key [(control n)] 'find-file-other-frame)  ; open a file in a new window with Ctrl-n
 
 ;; ===== Alt buffer navigation =====
 (global-set-key [M-left] 'windmove-left) ; move to left windnow

@@ -85,7 +85,8 @@ Emacs buffer are those starting with “*”."
 (set-face-background 'region "gray")
 (set-background-color "black")
 (set-foreground-color "white")
-(set-face-font 'default '"8x13")
+;;(set-face-font 'default '"8x13")
+(set-default-font "Inconsolata-9")
 
 ;; ===== C-x,C-c,C-v copy/paste =====
 (cua-mode 1)
@@ -365,3 +366,15 @@ temp-file
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  )
+
+;; ===== Split window into three horizontal buffers =====
+(defun three-vertical-buffers ()
+  "Split window into three vertical buffers"
+  (interactive)
+  (setq buff-number 1)
+  (while (< buff-number 3)
+    (split-window-horizontally)
+    (setq buff-number (1+ buff-number)))
+  (balance-windows))
+
+

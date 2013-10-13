@@ -367,7 +367,10 @@ temp-file
   ;; If there is more than one, they won't work right.
  )
 
-;; ===== Split window into three horizontal buffers =====
+;; ===== Key bindings for tree vertical buffers =====
+(global-set-key (kbd "C-x 4") 'three-vertical-buffers)
+
+;; ===== Split window into three horizontal buffers ===== 
 (defun three-vertical-buffers ()
   "Split window into three vertical buffers"
   (interactive)

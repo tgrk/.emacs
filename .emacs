@@ -248,4 +248,4 @@
 ;;(add-to-list 'warning-suppress-types '(undo discard-info))
 
 ;; ===== Apache Pig Latin =====
-(load-file "~/emacs.d/piglatin.el")
+(load-file "~/.emacs.d/piglatin.el")

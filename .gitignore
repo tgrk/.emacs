@@ -2,3 +2,5 @@
 .emacs.d/distel/src/*
 .emacs.d/distel/ebin/.svn/*
 .emacs.d/auto-save-list/*
+.emacs.d/edts/
+.emacs.d/ac-comphist.dat

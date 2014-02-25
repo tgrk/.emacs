@@ -1,5 +1,5 @@
 ;; ===== Customizations go in emacs.d =====
-(add-to-list 'load-path "~/emacs.d")
+(add-to-list 'load-path "~/.emacs.d")
 
 ;; ===== Disable toolbar =====
 (tool-bar-mode -1)
@@ -207,6 +207,15 @@
   (balance-windows))
 
 ;; ==================================================================================
+;; MARMELADE PACKAGES
+;; ==================================================================================
+(require 'package)
+(add-to-list 'package-archives
+    '("marmalade" .
+      "http://marmalade-repo.org/packages/"))
+(package-initialize)
+
+;; ==================================================================================
 ;; LANGUAGE SPECIFIC SETTINGS
 ;; ==================================================================================
 
@@ -249,3 +258,8 @@
 
 ;; ===== Apache Pig Latin =====
 (load-file "~/.emacs.d/piglatin.el")
+
+;; ===== Clojure Mode =====
+(unless (package-installed-p 'clojure-mode)
+  (package-refresh-contents)
+  (package-install 'clojure-mode))

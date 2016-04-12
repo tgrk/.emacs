@@ -12,6 +12,7 @@
 
 ;; ===== Set default language =====
 (setq current-language-environment "UTF-8")
+(define-coding-system-alias 'UTF-8 'utf-8)
 
 ;; ===== Set the highlight current line minor mode =====
 (global-hl-line-mode 1)
@@ -29,6 +30,10 @@
 (setq nyan-bar-length 40)
 (setq nyan-animate-nyancat t)
 (nyan-mode)
+
+;; ===== Enable on the fly spelll checking =====
+;;(defun turn-on-flyspell () (flyspell-mode 1))
+;;(add-hook 'find-file-hooks 'turn-on-flyspell)
 
 ;; =====  Confirm on exit :-) =====
 (setq confirm-kill-emacs 'y-or-n-p)
@@ -125,8 +130,7 @@
 (global-set-key [f6] 'switch-to-buffer)
 (global-set-key [f7] 'hippie-expand)
 (global-set-key [f9] 'ispell)
-
-(global-set-key [(control o)] 'find-file)              ; use Ctrl-o to open a (new) file
+(global-set-key [(control o)] 'find-file)
 
 ;; ===== Alt buffer navigation =====
 (global-set-key [M-left] 'windmove-left) ; move to left windnow
@@ -137,59 +141,8 @@
 ;; ===== Save/restore buffers =====
 (desktop-save-mode 0)
 
-;; ===== Function to delete a line =====
 ;; ===== First define a variable which will store the previous column position =====
 (defvar previous-column nil "Save the column position")
-
-;; Define the nuke-line function. The line is killed, then the newline
-;; character is deleted. The column which the cursor was positioned at is then
-;; restored. Because the kill-line function is used, the contents deleted can
-;; be later restored by usibackward-delete-char-untabifyng the yank commands.
-(defun nuke-line()
-  "Kill an entire line, including the trailing newline character"
-  (interactive)
-
-  ;; Store the current column position, so it can later be restored for a more
-  ;; natural feel to the deletion
-  (setq previous-column (current-column))
-
-  ;; Now move to the end of the current line
-  (end-of-line)
-
-  ;; Test the length of the line. If it is 0, there is no need for a
-  ;; kill-line. All that happens in this case is that the new-line character
-  ;; is deleted.
-  (if (= (current-column) 0)
-    (delete-char 1)
-
-    ;; This is the 'else' clause. The current line being deleted is not zero
-    ;; in length. First remove the line by moving to its start and then
-    ;; killing, followed by deletion of the newline character, and then
-    ;; finally restoration of the column position.
-    (progn
-      (beginning-of-line)
-      (kill-line)
-      (delete-char 1)
-      (move-to-column previous-column))))
-
-;; Now bind the delete line function to the F8 key
-(global-set-key [f8] 'nuke-line)
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(cua-mode t nil (cua-base))
- '(edts-man-root "~/.emacs.d/edts/doc/R16B03")
- '(inhibit-startup-screen t)
- '(transient-mark-mode t))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- )
 
 ;; ===== Key bindings for tree vertical buffers =====
 (global-set-key (kbd "C-x 4") 'three-vertical-buffers)
@@ -206,13 +159,16 @@
     (setq buff-number (1+ buff-number)))
   (balance-windows))
 
-;; ==================================================================================
-;; MARMELADE PACKAGES
-;; ==================================================================================
+;; ===== Delete any trailing whitespace before saving =====
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 (require 'package)
-(add-to-list 'package-archives
-    '("marmalade" .
-      "http://marmalade-repo.org/packages/"))
+;; ==================================================================================
+;; PACKAGES
+;; ==================================================================================
+(add-to-list 'package-archives '("elpa" . "http://elpa.gnu.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
 ;; ==================================================================================
@@ -245,6 +201,9 @@
 (require 'go-mode-load)
 (add-hook 'before-save-hook 'gofmt-before-save)
 
+;; ===== Rust Mode =====
+(require 'rust-mode)
+
 ;; ===== Erlang Emacs Mode -- Configuration End =====
 (setq-default indent-tabs-mode nil)
 (setq-default c-basic-offset 4)
@@ -263,3 +222,16 @@
 (unless (package-installed-p 'clojure-mode)
   (package-refresh-contents)
   (package-install 'clojure-mode))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(edts-inhibit-package-check t)
+ '(edts-man-root "/home/wiso/.emacs.d/edts/doc/17.3"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

@@ -144,20 +144,26 @@
 ;; ===== First define a variable which will store the previous column position =====
 (defvar previous-column nil "Save the column position")
 
-;; ===== Key bindings for tree vertical buffers =====
-(global-set-key (kbd "C-x 4") 'three-vertical-buffers)
 
-;; ===== Split window into three horizontal buffers =====
+;; ===== Split window into N horizontal buffers =====
 ;; TODO: check number of buffers before increasing it by 3
-(defun three-vertical-buffers ()
-  "Split window into three vertical buffers"
+(defun create-vertical-buffers (screens)
+  "Split window into N vertical buffers"
   (interactive)
   (setq buff-number 1)
   ;;(length (buffer-list)
-  (while (< buff-number 3)
+  (while (< buff-number screens)
     (split-window-horizontally)
     (setq buff-number (1+ buff-number)))
   (balance-windows))
+
+;; ===== On bigger display automatically create 3 buffers otherwise 2 =====
+(if (< 1900 (x-display-pixel-width) )
+    (funcall 'create-vertical-buffers 3)
+  (funcall 'create-vertical-buffers 2) )
+
+;; ===== Key bindings for tree vertical buffers =====
+(global-set-key (kbd "C-x 4") (lambda () (interactive) (create-vertical-buffers 3)))
 
 ;; ===== Delete any trailing whitespace before saving =====
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -167,7 +173,8 @@
 ;; PACKAGES
 ;; ==================================================================================
 (add-to-list 'package-archives '("elpa" . "http://elpa.gnu.org/packages/") t)
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
@@ -197,12 +204,48 @@
        ))
 
 ;; ===== GO Mode =====
+(setenv "GOPATH" "/home/wiso/Projects/personal/golang/")
 (add-to-list 'load-path "~/.emacs.d/go-mode")
 (require 'go-mode-load)
-(add-hook 'before-save-hook 'gofmt-before-save)
+
+;; ===== GO Mode - godef + gofmt =====
+(defun my-go-mode-hook ()
+  ; Call gofmt before saving
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  ; Use goimports instead of go-fmt
+  ;(setq gofmt-command "goimports") ;NOTE: unable to find goimports!
+  ; Compile
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet"))
+  ; Go oracle
+  ;(load-file "$GOPATH/src/golang.org/x/tools/cmd/oracle/oracle.el")
+  ; godef jump key binding
+  (local-set-key (kbd 2"M-.") 'godef-jump))
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+
+;; ===== GO Mode - godoc =====
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell (replace-regexp-in-string
+                          "[ \t\n]*$"
+                          ""
+                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq eshell-path-env path-from-shell) ; for eshell users
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(when window-system (set-exec-path-from-shell-PATH))
+
+;; ===== GO Mode - autocomplete =====
+;;NOTE: this is not working!
+;(eval-after-load 'go-mode
+;   (require 'go-autocomplete))
+(defun auto-complete-for-go ()
+  (auto-complete-mode 1))
+(add-hook 'go-mode-hook 'auto-complete-for-go)
 
 ;; ===== Rust Mode =====
-(require 'rust-mode)
+;(require 'rust-mode)
 
 ;; ===== Erlang Emacs Mode -- Configuration End =====
 (setq-default indent-tabs-mode nil)
@@ -213,15 +256,15 @@
   (require 'edts-start)
 
 ;; ===== Disable popup due to buffer limit in EDTS =====
-;;(add-to-list 'warning-suppress-types '(undo discard-info))
+;(add-to-list 'warning-suppress-types '(undo discard-info))
 
 ;; ===== Apache Pig Latin =====
-(load-file "~/.emacs.d/piglatin.el")
+;(load-file "~/.emacs.d/piglatin.el")
 
 ;; ===== Clojure Mode =====
-(unless (package-installed-p 'clojure-mode)
-  (package-refresh-contents)
-  (package-install 'clojure-mode))
+;(unless (package-installed-p 'clojure-mode)
+;  (package-refresh-contents)
+;  (package-install 'clojure-mode))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

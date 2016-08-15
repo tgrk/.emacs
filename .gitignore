@@ -4,3 +4,4 @@
 .emacs.d/auto-save-list/*
 .emacs.d/edts/
 .emacs.d/ac-comphist.dat
+.emacs.d/ido.last

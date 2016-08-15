@@ -1,5 +1,5 @@
 ;; ===== Customizations go in emacs.d =====
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/lisp/")
 
 ;; ===== Disable toolbar =====
 (tool-bar-mode -1)
@@ -24,10 +24,10 @@
 (setq make-backup-files nil)
 
 ;; ===== Nyan Mode =====
-(add-to-list 'load-path "/home/wiso/.emacs.d/nyan-mode/")
+(add-to-list 'load-path "/home/tgrk/.emacs.d/lisp/nyan-mode/")
 (require 'nyan-mode)
 (setq nyan-wavy-tail t)
-(setq nyan-bar-length 40)
+(setq nyan-bar-length 4)
 (setq nyan-animate-nyancat t)
 (nyan-mode)
 
@@ -82,7 +82,7 @@
 ;; ===== Shortening yes=y, no=n =====
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-; ===== Autocompletition on buffers/file names =====
+;; ===== Autocompletition on buffers/file names =====
 ;;(ido-mode 1)
 
 ;; ===== Cycle through buffers with Ctrl-Tab (like Firefox) =====
@@ -112,9 +112,9 @@
 ;; ===== Fixed line length =====
 (setq whitespace-line-column 80)
 
-(require 'whitespace)
-(setq whitespace-style '(face empty tabs lines-tail trailing))
-(global-whitespace-mode t)
+;(require 'whitespace)
+;(setq whitespace-style '(face empty tabs lines-tail trailing))
+;(global-whitespace-mode t)
 
 ;;FIXME: this is not working
 ;; ===== Highlight TODO/FIXME/BUG keywords in Erlang comments ====
@@ -168,10 +168,10 @@
 ;; ===== Delete any trailing whitespace before saving =====
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-(require 'package)
 ;; ==================================================================================
 ;; PACKAGES
 ;; ==================================================================================
+(require 'package)
 (add-to-list 'package-archives '("elpa" . "http://elpa.gnu.org/packages/") t)
 ;(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
@@ -183,11 +183,11 @@
 ;; ==================================================================================
 
 ;; ===== ActionScript mode =====
-;;(load-file "~/.emacs.d/actionscript-mode.el")
+;;(load-file "~/.emacs.d/lisp/actionscript-mode.el")
 ;;(autoload 'actionscript-mode "javascript" nil t)
 ;;(add-to-list 'auto-mode-alist '("\\.as\\'" . actionscript-mode))
 
-;;===== Flex specific =====
+;; ===== Flex specific =====
 ;;(setq auto-mode-alist (append (list
 ;; '("\\.as\\'"   . actionscript-mode)
 ;; '("\\.\\(xml\\|xsl\\|rng\\|xhtml\\|mxml\\)\\'" . nxml-mode)
@@ -204,8 +204,8 @@
        ))
 
 ;; ===== GO Mode =====
-(setenv "GOPATH" "/home/wiso/Projects/personal/golang/")
-(add-to-list 'load-path "~/.emacs.d/go-mode")
+(setenv "GOPATH" "/home/tgrk/Projects/golang/")
+(add-to-list 'load-path "~/.emacs.d/lisp/go-mode")
 (require 'go-mode-load)
 
 ;; ===== GO Mode - godef + gofmt =====
@@ -237,9 +237,6 @@
 (when window-system (set-exec-path-from-shell-PATH))
 
 ;; ===== GO Mode - autocomplete =====
-;;NOTE: this is not working!
-;(eval-after-load 'go-mode
-;   (require 'go-autocomplete))
 (defun auto-complete-for-go ()
   (auto-complete-mode 1))
 (add-hook 'go-mode-hook 'auto-complete-for-go)
@@ -247,19 +244,75 @@
 ;; ===== Rust Mode =====
 ;(require 'rust-mode)
 
-;; ===== Erlang Emacs Mode -- Configuration End =====
+;; ===== Erlang Emacs Mode + EDTS =====
 (setq-default indent-tabs-mode nil)
-(setq-default c-basic-offset 4)
-
-;; ===== EDTS =====
+(setq-default c-basic-offset 2)
 (add-to-list 'load-path "~/Projects/libs/edts")
-  (require 'edts-start)
+(require 'edts-start)
+
+;; ===== EditorConfig =====
+(require 'editorconfig)
+(editorconfig-mode 1)
 
 ;; ===== Disable popup due to buffer limit in EDTS =====
 ;(add-to-list 'warning-suppress-types '(undo discard-info))
 
 ;; ===== Apache Pig Latin =====
-;(load-file "~/.emacs.d/piglatin.el")
+;(load-file "~/.emacs.d/lisp/piglatin.el")
+
+;; ===== Web Mode =====
+(require 'web-mode)
+(require 'flycheck-flow)
+
+(load-file ".emacs.d/lisp/flow-types.el")
+
+(setq js-indent-level 2)
+(setq css-indent-offset 2)
+(setq js2-basic-offset 2)
+(setq js2-indent-switch-body 1)
+
+;; use web-mode for .jsx files
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+
+(defun web-mode-indent-hook ()
+  "Hooks for Web mode. Adjust indents"
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-indent-style 2)
+  (setq web-mode-code-indent-offset 2))
+(add-hook 'web-mode-hook 'web-mode-indent-hook)
+
+;; for better jsx syntax-highlighting in web-mode
+;; - courtesy of Patrick @halbtuerke
+(defadvice web-mode-highlight-part (around tweak-jsx activate)
+  (if (equal web-mode-content-type "jsx")
+    (let ((web-mode-enable-part-face nil))
+      ad-do-it)
+    ad-do-it))
+
+;; http://www.flycheck.org/manual/latest/index.html
+(require 'flycheck)
+;; turn on flychecking globally
+;(add-hook 'after-init-hook #'global-flycheck-mode)
+;; disable json-jsonlist checking for json files
+;(setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers '(json-jsonlist)))
+;; disable jshint since we prefer eslint checking
+;(setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers '(javascript-jshint)))
+
+;; use eslint with web-mode for jsx files
+(flycheck-add-mode 'javascript-eslint 'js3-mode)
+
+;; disable jshint since we prefer eslint checking
+(require 'flycheck)
+(setq-default flycheck-disabled-checkers
+              (append flycheck-disabled-checkers
+                      '(javascript-jshint
+                        scss
+                        scss-lint
+                        )))
+
+;; (setq-default flycheck-idle-change-delay 2.5)
+(setq-default flycheck-check-syntax-automatically '(mode-enabled save))
 
 ;; ===== Clojure Mode =====
 ;(unless (package-installed-p 'clojure-mode)
@@ -271,7 +324,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(edts-inhibit-package-check t)
- '(edts-man-root "/home/wiso/.emacs.d/edts/doc/17.3"))
+ '(edts-man-root "/home/tgrk/.emacs.d/lisp/edts/doc/18.3"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

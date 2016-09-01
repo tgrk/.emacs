@@ -145,16 +145,24 @@
 (defvar previous-column nil "Save the column position")
 
 
+;; ===== Fixed buffers =====
+;(setq special-display-buffer-names '("*Completions*" "*Gofmt Errors*" "*Warnings*"))
+
 ;; ===== Split window into N horizontal buffers =====
-;; TODO: check number of buffers before increasing it by 3
 (defun create-vertical-buffers (screens)
   "Split window into N vertical buffers"
   (interactive)
   (setq buff-number 1)
   ;;(length (buffer-list)
   (while (< buff-number screens)
+    ;(let (message-log-max) (message "test: %d"), buff-number))
     (split-window-horizontally)
-    (setq buff-number (1+ buff-number)))
+    (setq buff-number (1+ buff-number))
+    (message "bufr-number: %s" buff-number)
+    ;;TODO split third window horizontally for output buffers
+    ;if (= buff-number 1)
+    ;   (split-window-vertically))
+    )
   (balance-windows))
 
 ;; ===== On bigger display automatically create 3 buffers otherwise 2 =====
@@ -164,6 +172,7 @@
 
 ;; ===== Key bindings for tree vertical buffers =====
 (global-set-key (kbd "C-x 4") (lambda () (interactive) (create-vertical-buffers 3)))
+
 
 ;; ===== Delete any trailing whitespace before saving =====
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -213,7 +222,7 @@
   ; Call gofmt before saving
   (add-hook 'before-save-hook 'gofmt-before-save)
   ; Use goimports instead of go-fmt
-  ;(setq gofmt-command "goimports") ;NOTE: unable to find goimports!
+  (setq gofmt-command "goimports") ;NOTE: unable to find goimports!
   ; Compile
   (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
@@ -241,14 +250,20 @@
   (auto-complete-mode 1))
 (add-hook 'go-mode-hook 'auto-complete-for-go)
 
+;; ===== GO Mode - popwin for gofmt errors =====
+(require 'popwin)
+(popwin-mode 1)
+(push '("*Gofmt Errors*" :noselect t) popwin:special-display-config)
+
 ;; ===== Rust Mode =====
 ;(require 'rust-mode)
 
 ;; ===== Erlang Emacs Mode + EDTS =====
 (setq-default indent-tabs-mode nil)
 (setq-default c-basic-offset 2)
-(add-to-list 'load-path "~/Projects/libs/edts")
-(require 'edts-start)
+(add-hook 'after-init-hook 'my-after-init-hook)
+(defun my-after-init-hook ()
+  (require 'edts-start))
 
 ;; ===== EditorConfig =====
 (require 'editorconfig)
@@ -269,7 +284,10 @@
 (setq js-indent-level 2)
 (setq css-indent-offset 2)
 (setq js2-basic-offset 2)
+(setq js2-bounce-indent-p t)
 (setq js2-indent-switch-body 1)
+(setq electric-indent-local-mode -1)
+(setq js2-bounce-indent-p f)
 
 ;; use web-mode for .jsx files
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
@@ -279,7 +297,8 @@
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-indent-style 2)
-  (setq web-mode-code-indent-offset 2))
+  (setq web-mode-code-indent-offset 2)
+  (message "My Web Mode hook"))
 (add-hook 'web-mode-hook 'web-mode-indent-hook)
 
 ;; for better jsx syntax-highlighting in web-mode
@@ -300,7 +319,7 @@
 ;(setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers '(javascript-jshint)))
 
 ;; use eslint with web-mode for jsx files
-(flycheck-add-mode 'javascript-eslint 'js3-mode)
+(flycheck-add-mode 'javascript-eslint 'js2-mode)
 
 ;; disable jshint since we prefer eslint checking
 (require 'flycheck)
@@ -311,6 +330,7 @@
                         scss-lint
                         )))
 
+
 ;; (setq-default flycheck-idle-change-delay 2.5)
 (setq-default flycheck-check-syntax-automatically '(mode-enabled save))
 
@@ -318,13 +338,13 @@
 ;(unless (package-installed-p 'clojure-mode)
 ;  (package-refresh-contents)
 ;  (package-install 'clojure-mode))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(edts-inhibit-package-check t)
- '(edts-man-root "/home/tgrk/.emacs.d/lisp/edts/doc/18.3"))
+ '(edts-inhibit-package-check t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

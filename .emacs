@@ -32,8 +32,8 @@
 (nyan-mode)
 
 ;; ===== Enable on the fly spelll checking =====
-;;(defun turn-on-flyspell () (flyspell-mode 1))
-;;(add-hook 'find-file-hooks 'turn-on-flyspell)
+;(defun turn-on-flyspell () (flyspell-mode 1))
+;(add-hook 'find-file-hooks 'turn-on-flyspell)
 
 ;; =====  Confirm on exit :-) =====
 (setq confirm-kill-emacs 'y-or-n-p)
@@ -88,18 +88,11 @@
 ;; ===== Cycle through buffers with Ctrl-Tab (like Firefox) =====
 (global-set-key (kbd "<C-tab>") 'bury-buffer)
 
-;; ===== Goto-line short-cut key =====
-(global-set-key "\C-l" 'goto-line)
-
 ;; ===== Editing .emacs config =====
 (global-set-key (kbd "<f12>") ;
   (lambda()(interactive)(find-file "~/.emacs")))
 
-;; =====  Run terminal =====
-(global-set-key (kbd "<f2>") ;
-  (lambda()(interactive)(ansi-term "/bin/bash")))
-
-;; ===== Buffer navigation =====
+; ===== Buffer navigation =====
 (global-set-key [M-left] 'windmove-left)          ; move to left windnow
 (global-set-key [M-right] 'windmove-right)        ; move to right window
 (global-set-key [M-up] 'windmove-up)              ; move to upper window
@@ -125,6 +118,7 @@
 ;;                 '(("<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
 ;; ===== Set key bindings =====
+(global-set-key [f2] 'goto-line)
 (global-set-key [f3] 'shell)
 (global-set-key [f5] 'query-replace)
 (global-set-key [f6] 'switch-to-buffer)
@@ -213,7 +207,7 @@
        ))
 
 ;; ===== GO Mode =====
-(setenv "GOPATH" "/home/tgrk/Projects/golang/")
+(setenv "GOPATH" "/home/tgrk/go")
 (add-to-list 'load-path "~/.emacs.d/lisp/go-mode")
 (require 'go-mode-load)
 
@@ -279,7 +273,7 @@
 (require 'web-mode)
 (require 'flycheck-flow)
 
-(load-file ".emacs.d/lisp/flow-types.el")
+(load-file "~/.emacs.d/lisp/flow-types.el")
 
 (setq js-indent-level 2)
 (setq css-indent-offset 2)
@@ -345,6 +339,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(edts-inhibit-package-check t))
+
+'(ac-auto-show-menu t)
+ '(ac-auto-start t)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

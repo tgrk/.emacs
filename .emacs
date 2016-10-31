@@ -278,10 +278,9 @@
 (setq js-indent-level 2)
 (setq css-indent-offset 2)
 (setq js2-basic-offset 2)
-(setq js2-bounce-indent-p t)
 (setq js2-indent-switch-body 1)
 (setq electric-indent-local-mode -1)
-(setq js2-bounce-indent-p f)
+(setq js2-bounce-indent-p 0)
 
 ;; use web-mode for .jsx files
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))

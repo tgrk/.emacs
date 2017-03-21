@@ -216,7 +216,7 @@
   ; Call gofmt before saving
   (add-hook 'before-save-hook 'gofmt-before-save)
   ; Use goimports instead of go-fmt
-  (setq gofmt-command "goimports") ;NOTE: unable to find goimports!
+  ;(setq gofmt-command "goimports") ;NOTE: unable to find goimports!
   ; Compile
   (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
@@ -280,7 +280,7 @@
 (setq js2-basic-offset 2)
 (setq js2-indent-switch-body 1)
 (setq electric-indent-local-mode -1)
-(setq js2-bounce-indent-p 0)
+(setq js2-bounce-indent-p t)
 
 ;; use web-mode for .jsx files
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
@@ -301,6 +301,15 @@
     (let ((web-mode-enable-part-face nil))
       ad-do-it)
     ad-do-it))
+
+;; ===== TypeScript Tide settings =====
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+(add-hook 'web-mode-hook
+          (lambda ()
+            (when (string-equal "tsx" (file-name-extension buffer-file-name))
+              (setup-tide-mode))))
+(add-hook 'js2-mode-hook #'setup-tide-mode)
 
 ;; http://www.flycheck.org/manual/latest/index.html
 (require 'flycheck)
@@ -338,6 +347,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(edts-inhibit-package-check t))
+ (when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
 
 '(ac-auto-show-menu t)
  '(ac-auto-start t)

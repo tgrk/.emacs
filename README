@@ -43,5 +43,6 @@ LANGUAGE SPECIFIC SETTINGS
 * GO Mode
 * Erlang Emacs Mode -- Configuration End
 * EDTS
+* TypeScript support
 * Apache Pig Latin
 * Clojure mode -- using Marmelade

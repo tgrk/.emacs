@@ -46,3 +46,4 @@ LANGUAGE SPECIFIC SETTINGS
 * TypeScript support
 * Apache Pig Latin
 * Clojure mode -- using Marmelade
+* Elixr mode

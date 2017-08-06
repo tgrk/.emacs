@@ -17,6 +17,9 @@
 ;; ===== Set the highlight current line minor mode =====
 (global-hl-line-mode 1)
 
+;; ===== Load custom themes =====
+(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+
 ;; ===== Support Wheel Mouse Scrolling =====
 (mouse-wheel-mode t)
 
@@ -373,27 +376,33 @@
 (setq alchemist-mix-command "/home/tgrk/.kiex/elixirs/elixir-1.4.4/bin/mix")
 (setq alchemist-mix-test-task "espec")
 (setq alchemist-mix-test-default-options '()) ;; default
-(setq alchemist-goto-erlang-source-dir "/home/tgrk/erlang/19.3/")
+(setq alchemist-iex-program-name "/home/tgrk/.kiex/elixirs/elixir-1.4.4/bin/iex")
+(setq alchemist-goto-erlang-source-dir "/home/tgrk/erlang/20.0/")
 (setq alchemist-goto-elixir-source-dir "/home/tgrk/.kiex/builds/elixir-git/")
-
+(setq alchemist-mix-env "dev")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("265fbb38b01bf3bd4ca53128a3933fe4aa6393965be452bb3f035b0ca6b5cf51" default)))
  '(edts-inhibit-package-check t)
  '(package-selected-packages
    (quote
-    (ac-alchemist company-ansible company-erlang cypher-mode yaml-tomato yaml-mode web-mode typoscript-mode typescript tss tide projector popwin php-mode php-completion php+-mode moz markdown-mode jsx-mode js2-mode haskell-mode haskell-emacs-base go-autocomplete elm-yasnippets elm-mode edts editorconfig ansible-vault ansible-doc ansible angular-mode alchemist))))
+    (idris-mode hugo markdown-mode+ ac-alchemist company-ansible company-erlang cypher-mode yaml-tomato yaml-mode web-mode typoscript-mode typescript tss tide projector popwin php-mode php-completion php+-mode moz markdown-mode jsx-mode js2-mode haskell-mode haskell-emacs-base go-autocomplete elm-yasnippets elm-mode edts editorconfig ansible-vault ansible-doc ansible angular-mode alchemist))))
  (when (fboundp 'electric-indent-mode) (electric-indent-mode -1))
 
 '(ac-auto-show-menu t)
  '(ac-auto-start t)
 
+(load-theme 'jungle t)
+
 (add-hook 'elixir-mode-hook 'ac-alchemist-setup)
 
-(setq erlang-root-dir "~/.emacs.d/edts/doc/19.3")
+(setq erlang-root-dir "~/.emacs.d/edts/doc/20.0")
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

@@ -2,6 +2,7 @@ COMMON SETTINGS
 ==================================================================================
 * Customizations go in emacs.d
 * Disable toolbar
+* Load custom themes (using jugle theme)
 * Default to better frame titles
 * Disable system beep
 * Set default language

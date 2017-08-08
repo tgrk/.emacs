@@ -2,7 +2,7 @@
 ![alt text](https://raw.githubusercontent.com/tgrk/.emacs/master/emacs_layout.png)
 
 COMMON SETTINGS
-==================================================================================
+===
 * Customizations go in emacs.d
 * Disable toolbar
 * Load custom themes (using jugle theme)
@@ -40,6 +40,7 @@ COMMON SETTINGS
 * Split window into three horizontal buffers
 
 LANGUAGE SPECIFIC SETTINGS
+===
 * ActionScript mode
 * Flex specific
 * Magic for XML Mode

@@ -1,9 +1,12 @@
+
+![alt text](https://raw.githubusercontent.com/tgrk/.emacs/master/emacs_layout.png)
+
 COMMON SETTINGS
 ==================================================================================
 * Customizations go in emacs.d
 * Disable toolbar
 * Load custom themes (using jugle theme)
-* Default to better frame titles
+* Default to better frame titles  
 * Disable system beep
 * Set default language
 * Set the highlight current line minor mode
@@ -37,7 +40,6 @@ COMMON SETTINGS
 * Split window into three horizontal buffers
 
 LANGUAGE SPECIFIC SETTINGS
-==================================================================================
 * ActionScript mode
 * Flex specific
 * Magic for XML Mode
@@ -47,4 +49,4 @@ LANGUAGE SPECIFIC SETTINGS
 * TypeScript support
 * Apache Pig Latin
 * Clojure mode -- using Marmelade
-* Elixr mode
+* Elixr mo

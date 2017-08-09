@@ -95,6 +95,12 @@
 (global-set-key (kbd "<f12>") ;
   (lambda()(interactive)(find-file "~/.emacs")))
 
+;; ===== Hide Top Menu Bar =====
+(menu-bar-mode -1)
+
+;; ===== Hide/Show Top Menu  =====
+(global-set-key [f11] 'toggle-menu-bar-mode-from-frame)
+
 ; ===== Buffer navigation =====
 (global-set-key [M-left] 'windmove-left)          ; move to left windnow
 (global-set-key [M-right] 'windmove-right)        ; move to right window
@@ -140,7 +146,6 @@
 
 ;; ===== First define a variable which will store the previous column position =====
 (defvar previous-column nil "Save the column position")
-
 
 ;; ===== Fixed buffers =====
 ;(setq special-display-buffer-names '("*Completions*" "*Gofmt Errors*" "*Warnings*"))

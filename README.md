@@ -27,6 +27,8 @@ COMMON SETTINGS
 * Cycle through buffers with Ctrl-Tab (like Firefox)
 * Goto-line short-cut key
 * Editing .emacs config
+* Hide Top Menu Bar by default
+* Add keyboard shorcut F11 for dynamically show/hide top menu
 * Run terminal
 * Buffer navigation
 * Interactively Do Things (smart tab-completion in find file etc.)
